@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Sales & Analytics Infographic</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { slate: { 850: '#151f32', 900: '#0f172a', 800: '#1e293b', 700: '#334155' } } } }
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    .glass-card { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
+  </style>
+</head>
+<body class="bg-[#0f172a] text-slate-100 font-sans min-h-screen p-4 sm:p-8 flex flex-col antialiased">
+
+  <main class="max-w-[1600px] w-full mx-auto space-y-6">
+
+    <!-- Infographic Report Header -->
+    <div class="glass-card rounded-2xl p-6 shadow-2xl border-l-4 border-l-indigo-500 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
+            Executive Briefing
+          </span>
+          <span class="text-xs text-slate-400">Generated: Oct 11, 2026</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          Executive Sales & Visual Analytics Snapshot
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1">Standalone interactive dashboard containing embedded enterprise performance metrics.</p>
+      </div>
+      <div class="flex items-center gap-3 bg-slate-800/80 px-4 py-2 rounded-xl border border-slate-700/80">
+        <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+        <div class="text-xs text-slate-300">
+          <span class="font-bold text-emerald-400">80</span> Total Rows Snapshot
+        </div>
+      </div>
+    </div>
+
+    <!-- Dynamic Filters Bar -->
+    <div class="glass-card rounded-xl p-4 shadow-lg">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+        <div class="flex items-center gap-2 text-sm font-semibold text-slate-200">
+          <i data-lucide="sliders-horizontal" class="w-4 h-4 text-indigo-400"></i>
+          <span>Dynamic Infographic Filters</span>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 lg:flex items-center gap-3 flex-1 lg:max-w-4xl">
+          <div class="w-full">
+            <label class="block text-[11px] uppercase tracking-wider text-slate-400 font-medium mb-1">Region</label>
+            <select id="filter-region" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none">
+              <option value="ALL">All Regions</option>
+            </select>
+          </div>
+          <div class="w-full">
+            <label class="block text-[11px] uppercase tracking-wider text-slate-400 font-medium mb-1">Category</label>
+            <select id="filter-category" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none">
+              <option value="ALL">All Categories</option>
+            </select>
+          </div>
+          <div class="w-full">
+            <label class="block text-[11px] uppercase tracking-wider text-slate-400 font-medium mb-1">Salesperson</label>
+            <select id="filter-salesperson" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none">
+              <option value="ALL">All Salespeople</option>
+            </select>
+          </div>
+          <div class="w-full">
+            <label class="block text-[11px] uppercase tracking-wider text-slate-400 font-medium mb-1">Month</label>
+            <select id="filter-month" onchange="applyFilters()" class="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none">
+              <option value="ALL">All Months</option>
+            </select>
+          </div>
+        </div>
+
+        <button onclick="resetFilters()" class="flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-300">
+          <i data-lucide="x-circle" class="w-3.5 h-3.5 text-slate-400"></i>
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <!-- Executive KPI Grid (6 Cards) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div class="glass-card rounded-xl p-4 flex flex-col justify-between border-l-4 border-l-emerald-500">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Total Revenue</span>
+          <i data-lucide="dollar-sign" class="w-4 h-4 text-emerald-400"></i>
+        </div>
+        <div>
+          <div id="kpi-revenue" class="text-xl font-bold text-slate-100">$0</div>
+          <p class="text-[11px] text-slate-400 mt-1">Gross revenue</p>
+        </div>
+      </div>
+
+      <div class="glass-card rounded-xl p-4 flex flex-col justify-between border-l-4 border-l-violet-500">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Total Profit</span>
+          <i data-lucide="trending-up" class="w-4 h-4 text-violet-400"></i>
+        </div>
+        <div>
+          <div class="flex items-baseline gap-2">
+            <div id="kpi-profit" class="text-xl font-bold text-slate-100">$0</div>
+            <span id="kpi-margin" class="text-xs font-bold text-violet-400">0%</span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-1">Net profit & margin %</p>
+        </div>
+      </div>
+
+      <div class="glass-card rounded-xl p-4 flex flex-col justify-between border-l-4 border-l-cyan-500">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Units Sold</span>
+          <i data-lucide="shopping-bag" class="w-4 h-4 text-cyan-400"></i>
+        </div>
+        <div>
+          <div id="kpi-units" class="text-xl font-bold text-slate-100">0</div>
+          <p class="text-[11px] text-slate-400 mt-1">Total quantity sold</p>
+        </div>
+      </div>
+
+      <div class="glass-card rounded-xl p-4 flex flex-col justify-between border-l-4 border-l-blue-500">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Avg Order Value</span>
+          <i data-lucide="credit-card" class="w-4 h-4 text-blue-400"></i>
+        </div>
+        <div>
+          <div id="kpi-aov" class="text-xl font-bold text-slate-100">$0</div>
+          <p class="text-[11px] text-slate-400 mt-1">Revenue per order</p>
+        </div>
+      </div>
+
+      <div class="glass-card rounded-xl p-4 flex flex-col justify-between border-l-4 border-l-amber-500">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Total Cost</span>
+          <i data-lucide="receipt" class="w-4 h-4 text-amber-400"></i>
+        </div>
+        <div>
+          <div id="kpi-cost" class="text-xl font-bold text-slate-100">$0</div>
+          <p class="text-[11px] text-slate-400 mt-1">Cumulative COGS</p>
+        </div>
+      </div>
+
+      <div class="glass-card rounded-xl p-4 flex flex-col justify-between border-l-4 border-l-rose-500">
+        <div class="flex items-center justify-between text-slate-400 mb-2">
+          <span class="text-xs font-semibold uppercase tracking-wider">Avg Discount</span>
+          <i data-lucide="percent" class="w-4 h-4 text-rose-400"></i>
+        </div>
+        <div>
+          <div id="kpi-discount" class="text-xl font-bold text-slate-100">0%</div>
+          <p class="text-[11px] text-slate-400 mt-1">Average promotional rate</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Visual Analytics Charts Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+      <div class="lg:col-span-7 glass-card rounded-xl p-5 shadow-lg flex flex-col">
+        <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2 mb-4">
+          <i data-lucide="line-chart" class="w-4 h-4 text-indigo-400"></i> Monthly Performance Trends
+        </h3>
+        <div class="relative flex-1 min-h-[280px]"><canvas id="chart-monthly"></canvas></div>
+      </div>
+
+      <div class="lg:col-span-5 glass-card rounded-xl p-5 shadow-lg flex flex-col">
+        <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2 mb-4">
+          <i data-lucide="pie-chart" class="w-4 h-4 text-cyan-400"></i> Regional Revenue Share
+        </h3>
+        <div class="relative flex-1 min-h-[280px] flex items-center justify-center"><canvas id="chart-regional"></canvas></div>
+      </div>
+
+      <div class="lg:col-span-6 glass-card rounded-xl p-5 shadow-lg flex flex-col">
+        <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2 mb-4">
+          <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-400"></i> Top 5 Products by Revenue & Profit
+        </h3>
+        <div class="relative flex-1 min-h-[280px]"><canvas id="chart-products"></canvas></div>
+      </div>
+
+      <div class="lg:col-span-6 glass-card rounded-xl p-5 shadow-lg flex flex-col">
+        <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2 mb-4">
+          <i data-lucide="users" class="w-4 h-4 text-violet-400"></i> Salesperson Performance
+        </h3>
+        <div class="relative flex-1 min-h-[280px]"><canvas id="chart-salesperson"></canvas></div>
+      </div>
+
+      <div class="lg:col-span-12 glass-card rounded-xl p-5 shadow-lg flex flex-col">
+        <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2 mb-4">
+          <i data-lucide="percent" class="w-4 h-4 text-rose-400"></i> Discount Impact Analysis
+        </h3>
+        <div class="relative flex-1 min-h-[240px]"><canvas id="chart-discount"></canvas></div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="py-6 text-center text-xs text-slate-500">
+    Self-Contained Dynamic Sales Infographic Snapshot
+  </footer>
+
+  <script>
+    const rawDataset = [{"Order ID":"ORD-1001","Order Date":46188,"Region":"North","Salesperson":"Rohan","Product Code":"P105","Product Name":"Webcam","Category":"Electronics","Units":4,"Unit Price":3100,"Discount %":0,"Unit Cost":2050,"Revenue":12400,"Cost":8200,"Profit":4200,"Order Value":12400,"Month":"Jun"},{"Order ID":"ORD-1002","Order Date":46060,"Region":"West","Salesperson":"Vivaan","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":2,"Unit Price":1800,"Discount %":10,"Unit Cost":1050,"Revenue":3240,"Cost":2100,"Profit":1140,"Order Value":3240,"Month":"Feb"},{"Order ID":"ORD-1003","Order Date":46133,"Region":"North","Salesperson":"Aarav","Product Code":"P104","Product Name":"24-inch Monitor","Category":"Electronics","Units":4,"Unit Price":9200,"Discount %":10,"Unit Cost":7000,"Revenue":33120,"Cost":28000,"Profit":5120,"Order Value":33120,"Month":"Apr"},{"Order ID":"ORD-1004","Order Date":46179,"Region":"North","Salesperson":"Aarav","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":7,"Unit Price":1800,"Discount %":0,"Unit Cost":1050,"Revenue":12600,"Cost":7350,"Profit":5250,"Order Value":12600,"Month":"Jun"},{"Order ID":"ORD-1005","Order Date":46139,"Region":"East","Salesperson":"Arjun","Product Code":"P103","Product Name":"Mechanical Keyboard","Category":"Accessories","Units":7,"Unit Price":2400,"Discount %":5,"Unit Cost":1450,"Revenue":15960,"Cost":10150,"Profit":5810,"Order Value":15960,"Month":"Apr"},{"Order ID":"ORD-1006","Order Date":46096,"Region":"North","Salesperson":"Meera","Product Code":"P102","Product Name":"Wireless Mouse","Category":"Accessories","Units":2,"Unit Price":950,"Discount %":5,"Unit Cost":540,"Revenue":1805,"Cost":1080,"Profit":725,"Order Value":1805,"Month":"Mar"},{"Order ID":"ORD-1007","Order Date":46049,"Region":"South","Salesperson":"Karthik","Product Code":"P110","Product Name":"USB-C Hub","Category":"Accessories","Units":5,"Unit Price":2700,"Discount %":0,"Unit Cost":1650,"Revenue":13500,"Cost":8250,"Profit":5250,"Order Value":13500,"Month":"Jan"},{"Order ID":"ORD-1008","Order Date":46142,"Region":"East","Salesperson":"Ishita","Product Code":"P102","Product Name":"Wireless Mouse","Category":"Accessories","Units":5,"Unit Price":950,"Discount %":15,"Unit Cost":540,"Revenue":4037.5,"Cost":2700,"Profit":1337.5,"Order Value":4037.5,"Month":"Apr"},{"Order ID":"ORD-1009","Order Date":46183,"Region":"West","Salesperson":"Riya","Product Code":"P110","Product Name":"USB-C Hub","Category":"Accessories","Units":4,"Unit Price":2700,"Discount %":15,"Unit Cost":1650,"Revenue":9180,"Cost":6600,"Profit":2580,"Order Value":9180,"Month":"Jun"},{"Order ID":"ORD-1010","Order Date":46042,"Region":"North","Salesperson":"Aarav","Product Code":"P105","Product Name":"Webcam","Category":"Electronics","Units":2,"Unit Price":3100,"Discount %":0,"Unit Cost":2050,"Revenue":6200,"Cost":4100,"Profit":2100,"Order Value":6200,"Month":"Jan"},{"Order ID":"ORD-1011","Order Date":46050,"Region":"South","Salesperson":"Karthik","Product Code":"P106","Product Name":"Noise-Cancel Headset","Category":"Electronics","Units":3,"Unit Price":5200,"Discount %":5,"Unit Cost":3400,"Revenue":14820,"Cost":10200,"Profit":4620,"Order Value":14820,"Month":"Jan"},{"Order ID":"ORD-1012","Order Date":46115,"Region":"North","Salesperson":"Meera","Product Code":"P102","Product Name":"Wireless Mouse","Category":"Accessories","Units":3,"Unit Price":950,"Discount %":10,"Unit Cost":540,"Revenue":2565,"Cost":1620,"Profit":945,"Order Value":2565,"Month":"Apr"},{"Order ID":"ORD-1013","Order Date":46087,"Region":"North","Salesperson":"Meera","Product Code":"P105","Product Name":"Webcam","Category":"Electronics","Units":4,"Unit Price":3100,"Discount %":15,"Unit Cost":2050,"Revenue":10540,"Cost":8200,"Profit":2340,"Order Value":10540,"Month":"Mar"},{"Order ID":"ORD-1014","Order Date":46108,"Region":"West","Salesperson":"Kabir","Product Code":"P104","Product Name":"24-inch Monitor","Category":"Electronics","Units":1,"Unit Price":9200,"Discount %":5,"Unit Cost":7000,"Revenue":8740,"Cost":7000,"Profit":1740,"Order Value":8740,"Month":"Mar"},{"Order ID":"ORD-1015","Order Date":46127,"Region":"South","Salesperson":"Diya","Product Code":"P110","Product Name":"USB-C Hub","Category":"Accessories","Units":6,"Unit Price":2700,"Discount %":0,"Unit Cost":1650,"Revenue":16200,"Cost":9900,"Profit":6300,"Order Value":16200,"Month":"Apr"},{"Order ID":"ORD-1016","Order Date":46192,"Region":"East","Salesperson":"Soham","Product Code":"P108","Product Name":"Study Desk","Category":"Furniture","Units":3,"Unit Price":6500,"Discount %":5,"Unit Cost":4300,"Revenue":18525,"Cost":12900,"Profit":5625,"Order Value":18525,"Month":"Jun"},{"Order ID":"ORD-1017","Order Date":46060,"Region":"South","Salesperson":"Nisha","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":5,"Unit Price":1800,"Discount %":15,"Unit Cost":1050,"Revenue":7650,"Cost":5250,"Profit":2400,"Order Value":7650,"Month":"Feb"},{"Order ID":"ORD-1018","Order Date":46174,"Region":"South","Salesperson":"Nisha","Product Code":"P107","Product Name":"Office Chair","Category":"Furniture","Units":6,"Unit Price":7800,"Discount %":0,"Unit Cost":5400,"Revenue":46800,"Cost":32400,"Profit":14400,"Order Value":46800,"Month":"Jun"},{"Order ID":"ORD-1019","Order Date":46060,"Region":"East","Salesperson":"Arjun","Product Code":"P101","Product Name":"Laptop Stand","Category":"Accessories","Units":2,"Unit Price":1150,"Discount %":0,"Unit Cost":720,"Revenue":2300,"Cost":1440,"Profit":860,"Order Value":2300,"Month":"Feb"},{"Order ID":"ORD-1020","Order Date":46185,"Region":"North","Salesperson":"Rohan","Product Code":"P107","Product Name":"Office Chair","Category":"Furniture","Units":2,"Unit Price":7800,"Discount %":5,"Unit Cost":5400,"Revenue":14820,"Cost":10800,"Profit":4020,"Order Value":14820,"Month":"Jun"},{"Order ID":"ORD-1021","Order Date":46122,"Region":"East","Salesperson":"Ishita","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":5,"Unit Price":1800,"Discount %":10,"Unit Cost":1050,"Revenue":8100,"Cost":5250,"Profit":2850,"Order Value":8100,"Month":"Apr"},{"Order ID":"ORD-1022","Order Date":46027,"Region":"East","Salesperson":"Arjun","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":5,"Unit Price":1800,"Discount %":15,"Unit Cost":1050,"Revenue":7650,"Cost":5250,"Profit":2400,"Order Value":7650,"Month":"Jan"},{"Order ID":"ORD-1023","Order Date":46112,"Region":"North","Salesperson":"Meera","Product Code":"P103","Product Name":"Mechanical Keyboard","Category":"Accessories","Units":8,"Unit Price":2400,"Discount %":0,"Unit Cost":1450,"Revenue":19200,"Cost":11600,"Profit":7600,"Order Value":19200,"Month":"Mar"},{"Order ID":"ORD-1024","Order Date":46092,"Region":"West","Salesperson":"Kabir","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":2,"Unit Price":1800,"Discount %":15,"Unit Cost":1050,"Revenue":3060,"Cost":2100,"Profit":960,"Order Value":3060,"Month":"Mar"},{"Order ID":"ORD-1025","Order Date":46101,"Region":"West","Salesperson":"Vivaan","Product Code":"P110","Product Name":"USB-C Hub","Category":"Accessories","Units":4,"Unit Price":2700,"Discount %":0,"Unit Cost":1650,"Revenue":10800,"Cost":6600,"Profit":4200,"Order Value":10800,"Month":"Mar"},{"Order ID":"ORD-1026","Order Date":46120,"Region":"West","Salesperson":"Vivaan","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":1,"Unit Price":1800,"Discount %":10,"Unit Cost":1050,"Revenue":1620,"Cost":1050,"Profit":570,"Order Value":1620,"Month":"Apr"},{"Order ID":"ORD-1027","Order Date":46107,"Region":"South","Salesperson":"Diya","Product Code":"P106","Product Name":"Noise-Cancel Headset","Category":"Electronics","Units":5,"Unit Price":5200,"Discount %":0,"Unit Cost":3400,"Revenue":26000,"Cost":17000,"Profit":9000,"Order Value":26000,"Month":"Mar"},{"Order ID":"ORD-1028","Order Date":46039,"Region":"South","Salesperson":"Nisha","Product Code":"P102","Product Name":"Wireless Mouse","Category":"Accessories","Units":2,"Unit Price":950,"Discount %":15,"Unit Cost":540,"Revenue":1615,"Cost":1080,"Profit":535,"Order Value":1615,"Month":"Jan"},{"Order ID":"ORD-1029","Order Date":46149,"Region":"West","Salesperson":"Vivaan","Product Code":"P103","Product Name":"Mechanical Keyboard","Category":"Accessories","Units":3,"Unit Price":2400,"Discount %":15,"Unit Cost":1450,"Revenue":6120,"Cost":4350,"Profit":1770,"Order Value":6120,"Month":"May"},{"Order ID":"ORD-1030","Order Date":46146,"Region":"West","Salesperson":"Kabir","Product Code":"P105","Product Name":"Webcam","Category":"Electronics","Units":7,"Unit Price":3100,"Discount %":0,"Unit Cost":2050,"Revenue":21700,"Cost":14350,"Profit":7350,"Order Value":21700,"Month":"May"},{"Order ID":"ORD-1031","Order Date":46163,"Region":"West","Salesperson":"Vivaan","Product Code":"P104","Product Name":"24-inch Monitor","Category":"Electronics","Units":5,"Unit Price":9200,"Discount %":5,"Unit Cost":7000,"Revenue":43700,"Cost":35000,"Profit":8700,"Order Value":43700,"Month":"May"},{"Order ID":"ORD-1032","Order Date":46196,"Region":"East","Salesperson":"Ishita","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":8,"Unit Price":1800,"Discount %":0,"Unit Cost":1050,"Revenue":14400,"Cost":8400,"Profit":6000,"Order Value":14400,"Month":"Jun"},{"Order ID":"ORD-1033","Order Date":46088,"Region":"North","Salesperson":"Meera","Product Code":"P101","Product Name":"Laptop Stand","Category":"Accessories","Units":4,"Unit Price":1150,"Discount %":10,"Unit Cost":720,"Revenue":4140,"Cost":2880,"Profit":1260,"Order Value":4140,"Month":"Mar"},{"Order ID":"ORD-1034","Order Date":46081,"Region":"North","Salesperson":"Rohan","Product Code":"P101","Product Name":"Laptop Stand","Category":"Accessories","Units":4,"Unit Price":1150,"Discount %":0,"Unit Cost":720,"Revenue":4600,"Cost":2880,"Profit":1720,"Order Value":4600,"Month":"Feb"},{"Order ID":"ORD-1035","Order Date":46033,"Region":"West","Salesperson":"Kabir","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":4,"Unit Price":1800,"Discount %":5,"Unit Cost":1050,"Revenue":6840,"Cost":4200,"Profit":2640,"Order Value":6840,"Month":"Jan"},{"Order ID":"ORD-1036","Order Date":46196,"Region":"South","Salesperson":"Nisha","Product Code":"P103","Product Name":"Mechanical Keyboard","Category":"Accessories","Units":8,"Unit Price":2400,"Discount %":0,"Unit Cost":1450,"Revenue":19200,"Cost":11600,"Profit":7600,"Order Value":19200,"Month":"Jun"},{"Order ID":"ORD-1037","Order Date":46146,"Region":"West","Salesperson":"Kabir","Product Code":"P102","Product Name":"Wireless Mouse","Category":"Accessories","Units":2,"Unit Price":950,"Discount %":15,"Unit Cost":540,"Revenue":1615,"Cost":1080,"Profit":535,"Order Value":1615,"Month":"May"},{"Order ID":"ORD-1038","Order Date":46135,"Region":"South","Salesperson":"Karthik","Product Code":"P108","Product Name":"Study Desk","Category":"Furniture","Units":1,"Unit Price":6500,"Discount %":15,"Unit Cost":4300,"Revenue":5525,"Cost":4300,"Profit":1225,"Order Value":5525,"Month":"Apr"},{"Order ID":"ORD-1039","Order Date":46192,"Region":"West","Salesperson":"Kabir","Product Code":"P101","Product Name":"Laptop Stand","Category":"Accessories","Units":7,"Unit Price":1150,"Discount %":15,"Unit Cost":720,"Revenue":6842.5,"Cost":5040,"Profit":1802.5,"Order Value":6842.5,"Month":"Jun"},{"Order ID":"ORD-1040","Order Date":46111,"Region":"West","Salesperson":"Kabir","Product Code":"P104","Product Name":"24-inch Monitor","Category":"Electronics","Units":4,"Unit Price":9200,"Discount %":0,"Unit Cost":7000,"Revenue":36800,"Cost":28000,"Profit":8800,"Order Value":36800,"Month":"Mar"},{"Order ID":"ORD-1041","Order Date":46162,"Region":"South","Salesperson":"Karthik","Product Code":"P103","Product Name":"Mechanical Keyboard","Category":"Accessories","Units":5,"Unit Price":2400,"Discount %":5,"Unit Cost":1450,"Revenue":11400,"Cost":7250,"Profit":4150,"Order Value":11400,"Month":"May"},{"Order ID":"ORD-1042","Order Date":46088,"Region":"West","Salesperson":"Kabir","Product Code":"P108","Product Name":"Study Desk","Category":"Furniture","Units":2,"Unit Price":6500,"Discount %":0,"Unit Cost":4300,"Revenue":13000,"Cost":8600,"Profit":4400,"Order Value":13000,"Month":"Mar"},{"Order ID":"ORD-1043","Order Date":46191,"Region":"West","Salesperson":"Kabir","Product Code":"P102","Product Name":"Wireless Mouse","Category":"Accessories","Units":4,"Unit Price":950,"Discount %":0,"Unit Cost":540,"Revenue":3800,"Cost":2160,"Profit":1640,"Order Value":3800,"Month":"Jun"},{"Order ID":"ORD-1044","Order Date":46129,"Region":"South","Salesperson":"Diya","Product Code":"P107","Product Name":"Office Chair","Category":"Furniture","Units":1,"Unit Price":7800,"Discount %":0,"Unit Cost":5400,"Revenue":7800,"Cost":5400,"Profit":2400,"Order Value":7800,"Month":"Apr"},{"Order ID":"ORD-1045","Order Date":46122,"Region":"North","Salesperson":"Meera","Product Code":"P105","Product Name":"Webcam","Category":"Electronics","Units":8,"Unit Price":3100,"Discount %":5,"Unit Cost":2050,"Revenue":23560,"Cost":16400,"Profit":7160,"Order Value":23560,"Month":"Apr"},{"Order ID":"ORD-1046","Order Date":46133,"Region":"East","Salesperson":"Soham","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":8,"Unit Price":1800,"Discount %":0,"Unit Cost":1050,"Revenue":14400,"Cost":8400,"Profit":6000,"Order Value":14400,"Month":"Apr"},{"Order ID":"ORD-1047","Order Date":46073,"Region":"South","Salesperson":"Diya","Product Code":"P110","Product Name":"USB-C Hub","Category":"Accessories","Units":1,"Unit Price":2700,"Discount %":15,"Unit Cost":1650,"Revenue":2295,"Cost":1650,"Profit":645,"Order Value":2295,"Month":"Feb"},{"Order ID":"ORD-1048","Order Date":46105,"Region":"North","Salesperson":"Rohan","Product Code":"P108","Product Name":"Study Desk","Category":"Furniture","Units":3,"Unit Price":6500,"Discount %":0,"Unit Cost":4300,"Revenue":19500,"Cost":12900,"Profit":6600,"Order Value":19500,"Month":"Mar"},{"Order ID":"ORD-1049","Order Date":46155,"Region":"North","Salesperson":"Aarav","Product Code":"P102","Product Name":"Wireless Mouse","Category":"Accessories","Units":2,"Unit Price":950,"Discount %":15,"Unit Cost":540,"Revenue":1615,"Cost":1080,"Profit":535,"Order Value":1615,"Month":"May"},{"Order ID":"ORD-1050","Order Date":46085,"Region":"South","Salesperson":"Nisha","Product Code":"P104","Product Name":"24-inch Monitor","Category":"Electronics","Units":1,"Unit Price":9200,"Discount %":10,"Unit Cost":7000,"Revenue":8280,"Cost":7000,"Profit":1280,"Order Value":8280,"Month":"Mar"},{"Order ID":"ORD-1051","Order Date":46045,"Region":"South","Salesperson":"Nisha","Product Code":"P110","Product Name":"USB-C Hub","Category":"Accessories","Units":6,"Unit Price":2700,"Discount %":5,"Unit Cost":1650,"Revenue":15390,"Cost":9900,"Profit":5490,"Order Value":15390,"Month":"Jan"},{"Order ID":"ORD-1052","Order Date":46077,"Region":"East","Salesperson":"Ishita","Product Code":"P104","Product Name":"24-inch Monitor","Category":"Electronics","Units":5,"Unit Price":9200,"Discount %":5,"Unit Cost":7000,"Revenue":43700,"Cost":35000,"Profit":8700,"Order Value":43700,"Month":"Feb"},{"Order ID":"ORD-1053","Order Date":46058,"Region":"East","Salesperson":"Ishita","Product Code":"P108","Product Name":"Study Desk","Category":"Furniture","Units":6,"Unit Price":6500,"Discount %":0,"Unit Cost":4300,"Revenue":39000,"Cost":25800,"Profit":13200,"Order Value":39000,"Month":"Feb"},{"Order ID":"ORD-1054","Order Date":46027,"Region":"South","Salesperson":"Nisha","Product Code":"P102","Product Name":"Wireless Mouse","Category":"Accessories","Units":2,"Unit Price":950,"Discount %":10,"Unit Cost":540,"Revenue":1710,"Cost":1080,"Profit":630,"Order Value":1710,"Month":"Jan"},{"Order ID":"ORD-1055","Order Date":46079,"Region":"East","Salesperson":"Arjun","Product Code":"P106","Product Name":"Noise-Cancel Headset","Category":"Electronics","Units":2,"Unit Price":5200,"Discount %":0,"Unit Cost":3400,"Revenue":10400,"Cost":6800,"Profit":3600,"Order Value":10400,"Month":"Feb"},{"Order ID":"ORD-1056","Order Date":46119,"Region":"South","Salesperson":"Karthik","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":5,"Unit Price":1800,"Discount %":10,"Unit Cost":1050,"Revenue":8100,"Cost":5250,"Profit":2850,"Order Value":8100,"Month":"Apr"},{"Order ID":"ORD-1057","Order Date":46192,"Region":"East","Salesperson":"Soham","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":5,"Unit Price":1800,"Discount %":15,"Unit Cost":1050,"Revenue":7650,"Cost":5250,"Profit":2400,"Order Value":7650,"Month":"Jun"},{"Order ID":"ORD-1058","Order Date":46051,"Region":"West","Salesperson":"Kabir","Product Code":"P105","Product Name":"Webcam","Category":"Electronics","Units":2,"Unit Price":3100,"Discount %":0,"Unit Cost":2050,"Revenue":6200,"Cost":4100,"Profit":2100,"Order Value":6200,"Month":"Jan"},{"Order ID":"ORD-1059","Order Date":46166,"Region":"North","Salesperson":"Meera","Product Code":"P110","Product Name":"USB-C Hub","Category":"Accessories","Units":4,"Unit Price":2700,"Discount %":15,"Unit Cost":1650,"Revenue":9180,"Cost":6600,"Profit":2580,"Order Value":9180,"Month":"May"},{"Order ID":"ORD-1060","Order Date":46112,"Region":"North","Salesperson":"Rohan","Product Code":"P105","Product Name":"Webcam","Category":"Electronics","Units":8,"Unit Price":3100,"Discount %":5,"Unit Cost":2050,"Revenue":23560,"Cost":16400,"Profit":7160,"Order Value":23560,"Month":"Mar"},{"Order ID":"ORD-1061","Order Date":46038,"Region":"North","Salesperson":"Meera","Product Code":"P105","Product Name":"Webcam","Category":"Electronics","Units":1,"Unit Price":3100,"Discount %":0,"Unit Cost":2050,"Revenue":3100,"Cost":2050,"Profit":1050,"Order Value":3100,"Month":"Jan"},{"Order ID":"ORD-1062","Order Date":46110,"Region":"West","Salesperson":"Vivaan","Product Code":"P105","Product Name":"Webcam","Category":"Electronics","Units":3,"Unit Price":3100,"Discount %":15,"Unit Cost":2050,"Revenue":7905,"Cost":6150,"Profit":1755,"Order Value":7905,"Month":"Mar"},{"Order ID":"ORD-1063","Order Date":46138,"Region":"East","Salesperson":"Ishita","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":1,"Unit Price":1800,"Discount %":0,"Unit Cost":1050,"Revenue":1800,"Cost":1050,"Profit":750,"Order Value":1800,"Month":"Apr"},{"Order ID":"ORD-1064","Order Date":46044,"Region":"West","Salesperson":"Vivaan","Product Code":"P103","Product Name":"Mechanical Keyboard","Category":"Accessories","Units":1,"Unit Price":2400,"Discount %":5,"Unit Cost":1450,"Revenue":2280,"Cost":1450,"Profit":830,"Order Value":2280,"Month":"Jan"},{"Order ID":"ORD-1065","Order Date":46174,"Region":"East","Salesperson":"Ishita","Product Code":"P103","Product Name":"Mechanical Keyboard","Category":"Accessories","Units":1,"Unit Price":2400,"Discount %":5,"Unit Cost":1450,"Revenue":2280,"Cost":1450,"Profit":830,"Order Value":2280,"Month":"Jun"},{"Order ID":"ORD-1066","Order Date":46118,"Region":"West","Salesperson":"Kabir","Product Code":"P106","Product Name":"Noise-Cancel Headset","Category":"Electronics","Units":4,"Unit Price":5200,"Discount %":15,"Unit Cost":3400,"Revenue":17680,"Cost":13600,"Profit":4080,"Order Value":17680,"Month":"Apr"},{"Order ID":"ORD-1067","Order Date":46088,"Region":"East","Salesperson":"Ishita","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":7,"Unit Price":1800,"Discount %":10,"Unit Cost":1050,"Revenue":11340,"Cost":7350,"Profit":3990,"Order Value":11340,"Month":"Mar"},{"Order ID":"ORD-1068","Order Date":46064,"Region":"West","Salesperson":"Kabir","Product Code":"P103","Product Name":"Mechanical Keyboard","Category":"Accessories","Units":3,"Unit Price":2400,"Discount %":5,"Unit Cost":1450,"Revenue":6840,"Cost":4350,"Profit":2490,"Order Value":6840,"Month":"Feb"},{"Order ID":"ORD-1069","Order Date":46031,"Region":"North","Salesperson":"Meera","Product Code":"P107","Product Name":"Office Chair","Category":"Furniture","Units":4,"Unit Price":7800,"Discount %":5,"Unit Cost":5400,"Revenue":29640,"Cost":21600,"Profit":8040,"Order Value":29640,"Month":"Jan"},{"Order ID":"ORD-1070","Order Date":46065,"Region":"West","Salesperson":"Kabir","Product Code":"P107","Product Name":"Office Chair","Category":"Furniture","Units":1,"Unit Price":7800,"Discount %":5,"Unit Cost":5400,"Revenue":7410,"Cost":5400,"Profit":2010,"Order Value":7410,"Month":"Feb"},{"Order ID":"ORD-1071","Order Date":46081,"Region":"North","Salesperson":"Meera","Product Code":"P106","Product Name":"Noise-Cancel Headset","Category":"Electronics","Units":5,"Unit Price":5200,"Discount %":0,"Unit Cost":3400,"Revenue":26000,"Cost":17000,"Profit":9000,"Order Value":26000,"Month":"Feb"},{"Order ID":"ORD-1072","Order Date":46082,"Region":"North","Salesperson":"Aarav","Product Code":"P107","Product Name":"Office Chair","Category":"Furniture","Units":6,"Unit Price":7800,"Discount %":5,"Unit Cost":5400,"Revenue":44460,"Cost":32400,"Profit":12060,"Order Value":44460,"Month":"Mar"},{"Order ID":"ORD-1073","Order Date":46042,"Region":"West","Salesperson":"Riya","Product Code":"P106","Product Name":"Noise-Cancel Headset","Category":"Electronics","Units":7,"Unit Price":5200,"Discount %":15,"Unit Cost":3400,"Revenue":30940,"Cost":23800,"Profit":7140,"Order Value":30940,"Month":"Jan"},{"Order ID":"ORD-1074","Order Date":46162,"Region":"South","Salesperson":"Diya","Product Code":"P102","Product Name":"Wireless Mouse","Category":"Accessories","Units":5,"Unit Price":950,"Discount %":0,"Unit Cost":540,"Revenue":4750,"Cost":2700,"Profit":2050,"Order Value":4750,"Month":"May"},{"Order ID":"ORD-1075","Order Date":46173,"Region":"West","Salesperson":"Riya","Product Code":"P101","Product Name":"Laptop Stand","Category":"Accessories","Units":2,"Unit Price":1150,"Discount %":10,"Unit Cost":720,"Revenue":2070,"Cost":1440,"Profit":630,"Order Value":2070,"Month":"May"},{"Order ID":"ORD-1076","Order Date":46136,"Region":"South","Salesperson":"Karthik","Product Code":"P107","Product Name":"Office Chair","Category":"Furniture","Units":2,"Unit Price":7800,"Discount %":5,"Unit Cost":5400,"Revenue":14820,"Cost":10800,"Profit":4020,"Order Value":14820,"Month":"Apr"},{"Order ID":"ORD-1077","Order Date":46172,"Region":"North","Salesperson":"Aarav","Product Code":"P107","Product Name":"Office Chair","Category":"Furniture","Units":1,"Unit Price":7800,"Discount %":10,"Unit Cost":5400,"Revenue":7020,"Cost":5400,"Profit":1620,"Order Value":7020,"Month":"May"},{"Order ID":"ORD-1078","Order Date":46162,"Region":"East","Salesperson":"Soham","Product Code":"P104","Product Name":"24-inch Monitor","Category":"Electronics","Units":6,"Unit Price":9200,"Discount %":5,"Unit Cost":7000,"Revenue":52440,"Cost":42000,"Profit":10440,"Order Value":52440,"Month":"May"},{"Order ID":"ORD-1079","Order Date":46042,"Region":"West","Salesperson":"Riya","Product Code":"P110","Product Name":"USB-C Hub","Category":"Accessories","Units":6,"Unit Price":2700,"Discount %":15,"Unit Cost":1650,"Revenue":13770,"Cost":9900,"Profit":3870,"Order Value":13770,"Month":"Jan"},{"Order ID":"ORD-1080","Order Date":46056,"Region":"East","Salesperson":"Ishita","Product Code":"P109","Product Name":"Desk Lamp","Category":"Furniture","Units":5,"Unit Price":1800,"Discount %":15,"Unit Cost":1050,"Revenue":7650,"Cost":5250,"Profit":2400,"Order Value":7650,"Month":"Feb"}];
+    let filteredDataset = [...rawDataset];
+    const chartInstances = {};
+
+    function formatCurrency(val) {
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val || 0);
+    }
+
+    function formatPercent(val) {
+      return (val || 0).toFixed(1) + '%';
+    }
+
+    function populateFilterDropdowns() {
+      const regions = [...new Set(rawDataset.map(d => d.Region))].filter(Boolean).sort();
+      const categories = [...new Set(rawDataset.map(d => d.Category))].filter(Boolean).sort();
+      const salespeople = [...new Set(rawDataset.map(d => d.Salesperson))].filter(Boolean).sort();
+      const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const rawMonths = [...new Set(rawDataset.map(d => d.Month))].filter(Boolean);
+      const months = rawMonths.sort((a, b) => monthOrder.indexOf(a) - monthOrder.indexOf(b));
+
+      populateSelect('filter-region', regions, 'All Regions');
+      populateSelect('filter-category', categories, 'All Categories');
+      populateSelect('filter-salesperson', salespeople, 'All Salespeople');
+      populateSelect('filter-month', months, 'All Months');
+    }
+
+    function populateSelect(id, options, defaultText) {
+      const select = document.getElementById(id);
+      select.innerHTML = `<option value="ALL">${defaultText}</option>`;
+      options.forEach(opt => {
+        const option = document.createElement('option');
+        option.value = opt; option.textContent = opt; select.appendChild(option);
+      });
+    }
+
+    function applyFilters() {
+      const region = document.getElementById('filter-region').value;
+      const category = document.getElementById('filter-category').value;
+      const salesperson = document.getElementById('filter-salesperson').value;
+      const month = document.getElementById('filter-month').value;
+
+      filteredDataset = rawDataset.filter(item => {
+        if (region !== 'ALL' && item.Region !== region) return false;
+        if (category !== 'ALL' && item.Category !== category) return false;
+        if (salesperson !== 'ALL' && item.Salesperson !== salesperson) return false;
+        if (month !== 'ALL' && item.Month !== month) return false;
+        return true;
+      });
+
+      updateKPIs();
+      renderCharts();
+    }
+
+    function resetFilters() {
+      document.getElementById('filter-region').value = 'ALL';
+      document.getElementById('filter-category').value = 'ALL';
+      document.getElementById('filter-salesperson').value = 'ALL';
+      document.getElementById('filter-month').value = 'ALL';
+      applyFilters();
+    }
+
+    function updateKPIs() {
+      const totalRevenue = filteredDataset.reduce((sum, d) => sum + d.Revenue, 0);
+      const totalCost = filteredDataset.reduce((sum, d) => sum + d.Cost, 0);
+      const totalProfit = filteredDataset.reduce((sum, d) => sum + d.Profit, 0);
+      const totalUnits = filteredDataset.reduce((sum, d) => sum + d.Units, 0);
+      const profitMargin = totalRevenue > 0 ? (totalProfit / totalRevenue) * 100 : 0;
+      const aov = filteredDataset.length > 0 ? totalRevenue / filteredDataset.length : 0;
+      const avgDiscount = filteredDataset.length > 0 ? filteredDataset.reduce((sum, d) => sum + d['Discount %'], 0) / filteredDataset.length : 0;
+
+      document.getElementById('kpi-revenue').innerText = formatCurrency(totalRevenue);
+      document.getElementById('kpi-profit').innerText = formatCurrency(totalProfit);
+      document.getElementById('kpi-margin').innerText = formatPercent(profitMargin);
+      document.getElementById('kpi-units').innerText = totalUnits.toLocaleString();
+      document.getElementById('kpi-aov').innerText = formatCurrency(aov);
+      document.getElementById('kpi-cost').innerText = formatCurrency(totalCost);
+      document.getElementById('kpi-discount').innerText = formatPercent(avgDiscount);
+    }
+
+    function getCleanCanvas(id) {
+      if (chartInstances[id]) chartInstances[id].destroy();
+      return document.getElementById(id).getContext('2d');
+    }
+
+    const chartDefaults = { color: '#94a3b8', gridColor: 'rgba(255, 255, 255, 0.07)' };
+
+    function renderCharts() {
+      // Monthly Line
+      const ctxMonthly = getCleanCanvas('chart-monthly');
+      const monthOrder = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const mData = {}; monthOrder.forEach(m => mData[m] = { revenue: 0, profit: 0 });
+      filteredDataset.forEach(d => { if(mData[d.Month]) { mData[d.Month].revenue += d.Revenue; mData[d.Month].profit += d.Profit; } });
+      const labelsM = monthOrder.filter(m => mData[m].revenue > 0 || mData[m].profit > 0);
+
+      chartInstances['chart-monthly'] = new Chart(ctxMonthly, {
+        type: 'line',
+        data: {
+          labels: labelsM,
+          datasets: [
+            { label: 'Revenue', data: labelsM.map(m => mData[m].revenue), borderColor: '#6366f1', backgroundColor: 'rgba(99, 102, 241, 0.15)', fill: true, tension: 0.35 },
+            { label: 'Profit', data: labelsM.map(m => mData[m].profit), borderColor: '#10b981', backgroundColor: 'rgba(16, 185, 129, 0.15)', fill: true, tension: 0.35 }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, scales: { x: { grid: { color: chartDefaults.gridColor } }, y: { grid: { color: chartDefaults.gridColor } } } }
+      });
+
+      // Regional Doughnut
+      const ctxReg = getCleanCanvas('chart-regional');
+      const regMap = {}; filteredDataset.forEach(d => regMap[d.Region] = (regMap[d.Region] || 0) + d.Revenue);
+      chartInstances['chart-regional'] = new Chart(ctxReg, {
+        type: 'doughnut',
+        data: { labels: Object.keys(regMap), datasets: [{ data: Object.values(regMap), backgroundColor: ['#8b5cf6', '#06b6d4', '#3b82f6', '#f59e0b', '#f43f5e', '#10b981'] }] },
+        options: { responsive: true, maintainAspectRatio: false, cutout: '68%' }
+      });
+
+      // Top Products Bar
+      const ctxProd = getCleanCanvas('chart-products');
+      const pMap = {}; filteredDataset.forEach(d => { pMap[d['Product Name']] = pMap[d['Product Name']] || { rev:0, prof:0 }; pMap[d['Product Name']].rev += d.Revenue; pMap[d['Product Name']].prof += d.Profit; });
+      const topP = Object.entries(pMap).sort((a,b) => b[1].rev - a[1].rev).slice(0,5);
+      chartInstances['chart-products'] = new Chart(ctxProd, {
+        type: 'bar',
+        data: {
+          labels: topP.map(p => p[0]),
+          datasets: [
+            { label: 'Revenue', data: topP.map(p => p[1].rev), backgroundColor: '#3b82f6' },
+            { label: 'Profit', data: topP.map(p => p[1].prof), backgroundColor: '#10b981' }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+      });
+
+      // Salesperson Bar
+      const ctxSales = getCleanCanvas('chart-salesperson');
+      const sMap = {}; filteredDataset.forEach(d => sMap[d.Salesperson] = (sMap[d.Salesperson] || 0) + d.Revenue);
+      const topS = Object.entries(sMap).sort((a,b) => b[1] - a[1]);
+      chartInstances['chart-salesperson'] = new Chart(ctxSales, {
+        type: 'bar', data: { labels: topS.map(s => s[0]), datasets: [{ label: 'Revenue', data: topS.map(s => s[1]), backgroundColor: '#8b5cf6' }] },
+        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false }
+      });
+
+      // Discount Combo
+      const ctxDisc = getCleanCanvas('chart-discount');
+      const tiers = { '0%': [], '1-5%': [], '6-10%': [], '11-15%': [], '16-20%': [], '>20%': [] };
+      filteredDataset.forEach(d => {
+        const disc = d['Discount %'];
+        if (disc === 0) tiers['0%'].push(d); else if (disc <= 5) tiers['1-5%'].push(d); else if (disc <= 10) tiers['6-10%'].push(d);
+        else if (disc <= 15) tiers['11-15%'].push(d); else if (disc <= 20) tiers['16-20%'].push(d); else tiers['>20%'].push(d);
+      });
+      const labelsT = Object.keys(tiers);
+      const avgP = labelsT.map(k => tiers[k].length ? tiers[k].reduce((s,i) => s + i.Profit, 0) / tiers[k].length : 0);
+      const avgM = labelsT.map(k => { const r = tiers[k].reduce((s,i) => s + i.Revenue, 0); const p = tiers[k].reduce((s,i) => s + i.Profit, 0); return r > 0 ? (p/r)*100 : 0; });
+
+      chartInstances['chart-discount'] = new Chart(ctxDisc, {
+        type: 'bar',
+        data: {
+          labels: labelsT,
+          datasets: [
+            { type: 'bar', label: 'Avg Profit ($)', data: avgP, backgroundColor: 'rgba(6, 182, 212, 0.8)', yAxisID: 'y' },
+            { type: 'line', label: 'Profit Margin (%)', data: avgM, borderColor: '#f43f5e', yAxisID: 'y1' }
+          ]
+        },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { position: 'left' }, y1: { position: 'right', grid: { drawOnChartArea: false } } } }
+      });
+    }
+
+    window.onload = function() {
+      lucide.createIcons();
+      populateFilterDropdowns();
+      applyFilters();
+    };
+  </script>
+</body>
+</html>
